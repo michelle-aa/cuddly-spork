@@ -35,3 +35,13 @@ def read_train_data():
 def read_test_data():
     raw_data = read_raw_data(test_data_filename)
     return np.take(raw_data, field_indices, axis=1)
+
+# Outputs predictions to a file with given filename, following the format
+# specified in sample_submission.csv:
+# Predictions should be a 1D array with only the PES1 column.
+# id, PES1
+def write_predictions(filename, predictions):
+    # Assume that the index of a prediction is the id.
+    labeled_data = np.column_stack((range(len(predictions)), predictions))
+    np.savetxt(filename, labeled_data,
+        delimiter=',', header='id,PES1', fmt='%d,%d', comments='')
