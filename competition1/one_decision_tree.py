@@ -3,6 +3,7 @@ from sklearn.model_selection import KFold
 from sklearn import tree
 import matplotlib.pyplot as plt
 
+
 train_data_filename = 'train_2008.csv'
 test_data_filename = 'test_2008.csv'
 
@@ -101,7 +102,16 @@ print "Test score:", t_real.score(x, y)
 pred = t_real.predict(x_test)
 print "Predictions:", pred[:10]
 
+def write_predictions(filename, predictions):
+    # Assume that the index of a prediction is the id.
+    labeled_data = np.column_stack((range(len(predictions)), predictions))
+    np.savetxt(filename, labeled_data,
+        delimiter=',', header='id,PES1', fmt='%d,%d', comments='')
+
+write_predictions('cuddlyspork_test1.csv', pred)
+
 try:
-    plt.show()
+    #plt.show()
+    pass
 except:
     pass
