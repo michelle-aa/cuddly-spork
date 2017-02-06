@@ -6,21 +6,24 @@ import matplotlib.pyplot as plt
 import voterdata_io as vdio
 
 TESTING = False
-PRINT_LEVEL = 2
+PRINT_LEVEL = 1
 
 if (PRINT_LEVEL >= 1):
     print "loading..."
 
 x, y = vdio.get_2008_train()
+x, enc = vdio.process_data(x)
 if (PRINT_LEVEL >= 2):
     print x[:10]
     print y[:10]
 
 x_2008 = vdio.get_2008_test()
+x_2008, _ = vdio.process_data(x_2008, enc)
 if (PRINT_LEVEL >= 2):
     print x_2008[:10]
 
 x_2012 = vdio.get_2012_test()
+x_2012, _ = vdio.process_data(x_2012, enc)
 if (PRINT_LEVEL >= 2):
     print x_2012[:10]
 
@@ -90,7 +93,7 @@ vdio.write_predictions('../competition2/2012_test2.csv', pred_12)
 
 
 try:
-    #plt.show()
+    plt.show()
     pass
 except:
     pass
