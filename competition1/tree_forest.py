@@ -6,7 +6,7 @@ from sklearn import ensemble
 import voterdata_io as vdio
 import plot
 
-TESTING = True
+TESTING = False
 PRINT_LEVEL = 2
 
 if (PRINT_LEVEL >= 1):
@@ -29,10 +29,13 @@ if (PRINT_LEVEL >= 1):
     print "done loading"
 
 if TESTING:
+    # try one hot encoding:
+    #x, encoder = vdio.process_data(x)
+
     # estimating test error with cross validation over different max depths
     NUM_FOLDS = 5
     kf = KFold(n_splits=NUM_FOLDS)
-    
+
     depths = range(2,21)
     train_acc = []
     test_acc = []
@@ -57,8 +60,7 @@ if TESTING:
     
     plot.plot_accs(train_acc, test_acc, depths, 'maximum tree depth')
 
-    '''
-    leaf_fractions = [l / 100000.0 for l in range(1, 31)]#(31)]
+    '''leaf_fractions = [l / 100000.0 for l in range(1, 31)]#(31)]
     train_acc = []
     test_acc = []
 
@@ -83,14 +85,38 @@ if TESTING:
 
         print('leaf size ' + str(f) + ' done')
     
-    plot.plot_accs(train_acc, test_acc, leaf_fractions, 'min leaf fraction')'''
+    plot.plot_accs(train_acc, test_acc, leaf_fractions, 'min leaf fraction')
+    
+    num_trees = [41, 51, 61, 71, 81, 91, 101, 111, 121, 131]
+    train_acc = []
+    test_acc = []
+
+    for tr in num_trees:
+        avg_test_acc = 0.0
+        avg_train_acc = 0.0
+
+        for train_index, test_index in kf.split(x):
+
+            t = ensemble.RandomForestClassifier(n_estimators=tr,
+                                                        criterion='gini',
+                                                          random_state=None,
+                                                          max_depth=13,
+                                                          n_jobs=-1)
+            t.fit(x[train_index], y[train_index])
+            avg_train_acc += 1.0 / NUM_FOLDS * t.score(x[train_index], y[train_index])
+            avg_test_acc += 1.0 / NUM_FOLDS * t.score(x[test_index], y[test_index])
+
+        train_acc.append(avg_train_acc)
+        test_acc.append(avg_test_acc)
+    
+    plot.plot_accs(train_acc, test_acc, num_trees, 'n_estimators')'''
 
 else: # not testing
     # Actually use the training data to predict the test data
     t_real = ensemble.RandomForestClassifier(n_estimators=101,
                                                 criterion='gini',
                                                   random_state=None,
-                                                  max_depth=8,
+                                                  max_depth=13,
                                                   n_jobs=-1)
     t_real.fit(x, y)
     print "Test score:", t_real.score(x, y)
