@@ -47,10 +47,12 @@ field_indices, is_categorical, num_categories = zip(*
         (17, False, 17),
         (18, True, 11),
         (24, True, 3),
+        #(34, True, 4),
         (37, False, 8),
         (41, False, 86),
         (43, True, 7),
         (45, True, 3),
+        #(46, True, 3),
         (47, True, 3),
         (48, False, 47),
         (49, True, 27),
@@ -103,6 +105,16 @@ def process_data(X, one_hot_encoder=None):
                                         categorical_features=is_categorical,
                                         sparse=False).fit(X)
     return one_hot_encoder.transform(X), one_hot_encoder
+
+def process_labels(y):
+    y = [(i-1) for i in y]
+    #print y[:10]
+    encoder = OneHotEncoder(n_values=2,
+                            categorical_features=is_categorical,
+                            sparse=False).fit(y)
+
+    #print y[:10]
+    return encoder.transform(y)
 
 
 # Helper functions that get the data from each year
