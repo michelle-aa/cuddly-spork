@@ -10,9 +10,7 @@ import plot
 
 x, y = vdio.get_2008_train()
 x, enc = vdio.process_data(x)
-
-# {1, 2} -> {0, 1}
-y -= 1
+y = vdio.process_labels(y)
 
 print np.shape(x[0])
 
