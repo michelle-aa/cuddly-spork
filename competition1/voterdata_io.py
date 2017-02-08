@@ -106,15 +106,10 @@ def process_data(X, one_hot_encoder=None):
                                         sparse=False).fit(X)
     return one_hot_encoder.transform(X), one_hot_encoder
 
+# Processes labels to convert from {1, 2} -> {0, 1} so a neural network
+# can classify it correctly.
 def process_labels(y):
-    y = [(i-1) for i in y]
-    #print y[:10]
-    encoder = OneHotEncoder(n_values=2,
-                            categorical_features=is_categorical,
-                            sparse=False).fit(y)
-
-    #print y[:10]
-    return encoder.transform(y)
+    return y - 1
 
 
 # Helper functions that get the data from each year
