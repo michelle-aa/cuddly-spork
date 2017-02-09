@@ -47,6 +47,7 @@ field_indices, is_categorical, num_categories = zip(*
         (17, False, 17),
         (18, True, 11),
         (24, True, 3),
+        (30, True, 51), # state
         #(34, True, 4),
         (37, False, 8),
         (41, False, 86),

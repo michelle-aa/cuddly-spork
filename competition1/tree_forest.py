@@ -125,6 +125,6 @@ else: # not testing
     pred_12 = t_real.predict(x_2012)
     print "Predictions 2012:", pred_12[:10]
 
-    vdio.write_predictions('2008_test4.csv', pred_08)
-    vdio.write_predictions('../competition2/2012_test4.csv', pred_12)
+    vdio.write_predictions('2008_test_forest.csv', pred_08)
+    vdio.write_predictions('../competition2/2012_test_forest.csv', pred_12)
 
