@@ -10,4 +10,7 @@ def plot_accs(train_accs, test_accs, indices, label):
     plt.ylabel('average accuracy')
     plt.legend(loc='best')
 
-    plt.show()
+    try:
+    	plt.show()
+    except:
+    	return
